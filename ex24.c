@@ -20,6 +20,14 @@ typedef struct Person {
     float income;
 } Person;
 
+void strip_newline(char string[])
+{
+    char *pos;
+    if ((pos=strchr(string, '\n')) != NULL) {
+        *pos = '\0';
+    }
+}
+
 int main(int argc, char *argv[])
 {
     Person you = {.age = 0 };
@@ -30,23 +38,25 @@ int main(int argc, char *argv[])
     char income_string[MAX_DATA];
     char *ptr;
 
-    printf("What is your first name?");
+    printf("What is your first name? ");
     in = fgets(you.first_name, MAX_DATA - 1, stdin);
+
+    // strip newline
+    strip_newline(you.first_name);
 
     check(in != NULL, "Failed to read first name.");
 
-    printf("What is your last name?");
+    printf("What is your last name? ");
     in = fgets(you.last_name, MAX_DATA - 1, stdin);
 
-    check(in != NULL, "Failed to read last name.");
+    check(in != NULL, "Failed to read last name. ");
 
-    printf("How old are you?");
+    printf("How old are you? ");
     fgets(age_string, MAX_DATA - 1, stdin);
 
-    log_info("age_string is %s", age_string);
     you.age = strtol(age_string, &ptr, 10);
 
-    check(you.age > 0, "You have to enter a number");
+    check(you.age > 0, "You have to enter a number ");
 
     printf("What color are your eyes:\n");
     for (i = 0; i <= OTHER_EYES; i++) {
@@ -69,10 +79,10 @@ int main(int argc, char *argv[])
     you.income = strtol(income_string, &ptr, 10);
     check(you.income > 0, "Enter a floating point number.");
 
-    printf("----- RESULTS -----\n");
+    printf("\n----- RESULTS -----\n");
 
     printf("First Name: %s", you.first_name);
-    printf("Last Name: %s", you.last_name);
+    printf("\nLast Name: %s", you.last_name);
     printf("Age: %d\n", you.age);
     printf("Eyes: %s\n", EYE_COLOR_NAMES[you.eyes]);
     printf("Income: %f\n", you.income);
